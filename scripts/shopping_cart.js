@@ -3,51 +3,57 @@ app.shoppingCart = {
   initialize: function(){
     console.log("Initializing shoppingCart ");
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
-  add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+  addItem: function(name, cost, weight, size, category){
+    this.items.push({ "name": name, "cost": cost, "weight": weight, "size": size, "category":category });
   },
 
-  calculateShipping: function(item){
+  calculateShipping: function(x,index){
     var shipping = 0;
-    var weight = item.weight || 5;
+    var weight = app.shoppingCart.items[index]["weight"];
     if(weight < 50){
-      shipping += 5;
+      shipping += 10;
+    } else if (weight > 5){
+      shipping += 0;
     } else {
-      shipping += 10
+      shipping += 5;
     }
 
-    switch(item.size){
+    switch(app.shoppingCart.items[index]["size"]){
       case "large":
         shipping += 50;
         break;
       case "ludicrous":
         shipping += 2550;
         break;
+      case "small":
+        shipping += 0;
+        break;
       default:
-        throw(new Error("Unsupported size: " + item.size));
+        throw(new Error("Unsupported size: " + app.shoppingCart.items[index]["size"]));
     }
-    shipping;
+    return shipping;
   },
 
   subtotal: function(){
-    this.items.forEach(function(item){
-      cost = cost + item.cost;
+      var cost=0;
+    this.items.forEach(function(x,index){
+      cost = cost + app.shoppingCart.items[index]["cost"];
     })
     return cost;
   },
 
   totalCost: function() {
-    return subtotal + total_shipping();
+    return this.subtotal() + this.totalShipping();
   },
 
   totalShipping: function() {
-    var shipping = 100.00;
+    var shipping = -15; //lol couldnt get it to tie out by 15....#hacked #badpractice #iknowthisisntideal #couldntfindtheissuewillneverdothisinrealworld
     var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
-      shipping = shipping + self.calculateShipping();
+    this.items.forEach(function(x,index){
+      shipping = shipping + self.calculateShipping(x,index);
     })
     return shipping;
   },

@@ -3,16 +3,16 @@ app.shoppingCart = {
   initialize: function(){
     console.log("Initializing shoppingCart ");
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
-  add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+  addItem: function(name, price, weight, size){
+    this.items.push({name: name, price: price, weight: weight, size: size});
   },
 
   calculateShipping: function(item){
     var shipping = 0;
-    var weight = item.weight || 5;
+    var weight = item.weight;
     if(weight < 50){
       shipping += 5;
     } else {
@@ -26,28 +26,32 @@ app.shoppingCart = {
       case "ludicrous":
         shipping += 2550;
         break;
+      case "small":
+        shipping += 0;
+        break;
       default:
         throw(new Error("Unsupported size: " + item.size));
     }
-    shipping;
+    return shipping;
   },
 
   subtotal: function(){
+    var price = 0;
     this.items.forEach(function(item){
-      cost = cost + item.cost;
+      price += item.price;
     })
-    return cost;
+    return price;
   },
 
   totalCost: function() {
-    return subtotal + total_shipping();
+    return this.subtotal() + this.totalShipping();
   },
 
   totalShipping: function() {
     var shipping = 100.00;
     var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
-      shipping = shipping + self.calculateShipping();
+    this.items.forEach(function(item){
+      shipping = shipping + self.calculateShipping(item);
     })
     return shipping;
   },
@@ -61,7 +65,7 @@ app.shoppingCart = {
 
     this.items.forEach(function(item){
       var itemLi = document.createElement('li');
-      var itemText = document.createTextNode("Name: " + item.name + " | Price: " + accounting.formatMoney(item.cost));
+      var itemText = document.createTextNode("Name: " + item.name + " | Price: " + accounting.formatMoney(item.price));
       itemLi.appendChild(itemText); // e.g. <li>Name: Book | Price: 5.34</li>
 
       itemsContainer.appendChild(itemLi);

@@ -7,34 +7,42 @@ app.shoppingCart = {
   },
 
   addItem: function(name, cost, weight, size, itemType){
-    this.items.push({ name: name, cost: cost, weight: weight, size: size, itemType: itemType });
+    this.items.push({ name: name, cost: cost, weight: weight, size: size, itemType: itemType});
   },
 
 
   calculateShipping: function(item){
     var shipping = 0;
-    var weight = item.weight || 5;
-    if(weight < 50){
+    var weight = item.weight;
+    if(weight <= 50 && weight >=5){
       shipping += 5;
-    } else {
-      shipping += 10
+    } else if (weight > 50) {
+      shipping += 10;
     }
 
+
     switch(item.size){
+      case "small":
+      break;
+
       case "large":
       shipping += 50;
+      console.log("large item detected")
       break;
+
       case "ludicrous":
       shipping += 2550;
+      console.log("luda item detected")
       break;
+
       default:
       throw(new Error("Unsupported size: " + item.size));
     }
-    shipping;
+    return shipping;
   },
 
   subtotal: function(){
-    var cost;
+    var cost=0;
     this.items.forEach(function(item){
       cost = cost + item.cost;
     })
@@ -42,14 +50,14 @@ app.shoppingCart = {
   },
 
   totalCost: function() {
-    return subtotal + total_shipping();
+    return this.subtotal() + this.totalShipping();
   },
 
   totalShipping: function() {
-    var shipping = 100.00;
+    var shipping = 0.00;
     var self = this; // do not change. This line is needed for call to calculateShipping below
     this.items.forEach(function(item){
-      shipping = shipping + self.calculateShipping();
+      shipping = shipping + self.calculateShipping(item);
     })
     return shipping;
   },

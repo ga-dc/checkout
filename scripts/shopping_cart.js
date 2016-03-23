@@ -3,19 +3,20 @@ app.shoppingCart = {
   initialize: function(){
     console.log("Initializing shoppingCart ");
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
-  add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+  addItem: function(name, cost, weight, size){
+    this.items.push([ "name", "price", "weight", "size" ]);
   },
 
   calculateShipping: function(item){
     var shipping = 0;
     var weight = item.weight || 5;
-    if(weight < 50){
+    if(weight < 5){
       shipping += 5;
-    } else {
+    }
+    else {
       shipping += 10
     }
 
@@ -29,24 +30,24 @@ app.shoppingCart = {
       default:
         throw(new Error("Unsupported size: " + item.size));
     }
-    shipping;
+    return shipping;
   },
 
   subtotal: function(){
     this.items.forEach(function(item){
-      cost = cost + item.cost;
+      price += item.price;
     })
-    return cost;
+    return price;
   },
 
   totalCost: function() {
-    return subtotal + total_shipping();
+    return this.subtotal() + this.totalShipping();
   },
 
   totalShipping: function() {
     var shipping = 100.00;
     var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
+    this.items.forEach(function(item){
       shipping = shipping + self.calculateShipping();
     })
     return shipping;

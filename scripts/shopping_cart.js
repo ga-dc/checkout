@@ -3,20 +3,22 @@ app.shoppingCart = {
   initialize: function(){
     console.log("Initializing shoppingCart ");
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
   add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+    this.items.push({ name: name, cost: cost, weight: weight, size: size });
   },
 
   calculateShipping: function(item){
     var shipping = 0;
     var weight = item.weight || 5;
-    if(weight < 50){
+    if(weight < 5){
+      shipping +=0;
+    } else if (weight < 50) {
       shipping += 5;
     } else {
-      shipping += 10
+      shipping += 10;
     }
 
     switch(item.size){
@@ -29,10 +31,10 @@ app.shoppingCart = {
       default:
         throw(new Error("Unsupported size: " + item.size));
     }
-    shipping;
-  },
+    shipping += 2550;
+  }
 
-  subtotal: function(){
+  subtotal: function();{
     this.items.forEach(function(item){
       cost = cost + item.cost;
     })

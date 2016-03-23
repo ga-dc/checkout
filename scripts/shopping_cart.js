@@ -69,7 +69,7 @@ app.shoppingCart = {
 
     this.items.forEach(function(item){
       var itemLi = document.createElement('li');
-      var itemText = document.createTextNode("Name: " + item.name + " | Price: " + accounting.formatMoney(item.cost));
+      var itemText = document.createTextNode("Name: " + item.name + " | Price: " + accounting.formatMoney(item.price));
       itemLi.appendChild(itemText); // e.g. <li>Name: Book | Price: 5.34</li>
 
       itemsContainer.appendChild(itemLi);

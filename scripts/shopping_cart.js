@@ -4,7 +4,6 @@ app.shoppingCart = {
      this.items = [];
    },
 
-
       addItem: function(name, price, weight, size){
         this.items.push({ name: name, price: price, weight: weight, size: size });
       },
@@ -14,7 +13,7 @@ app.shoppingCart = {
         var weight = item.weight || 5;
         if (weight < 5) {
           shipping += 0;
-        } if else (weight < 50){
+        } else if (weight < 50){
           shipping += 5;
         } else {
           shipping += 10
@@ -47,7 +46,7 @@ app.shoppingCart = {
       },
 
       totalShipping: function() {
-        var shipping = 100.00;
+        var shipping = 0;
         var self = this; // do not change. This line is needed for call to calculateShipping below
         this.items.for_each(function(item){
           shipping = shipping + self.calculateShipping();

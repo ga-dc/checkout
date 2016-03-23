@@ -3,12 +3,13 @@ app.shoppingCart = {
   initialize: function(){
     console.log("Initializing shoppingCart ");
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
-  add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+  addItem: function(name, cost, weight, size, itemType){
+    this.items.push({ name: name, cost: cost, weight: weight, size: size, itemType: itemType });
   },
+
 
   calculateShipping: function(item){
     var shipping = 0;
@@ -21,18 +22,19 @@ app.shoppingCart = {
 
     switch(item.size){
       case "large":
-        shipping += 50;
-        break;
+      shipping += 50;
+      break;
       case "ludicrous":
-        shipping += 2550;
-        break;
+      shipping += 2550;
+      break;
       default:
-        throw(new Error("Unsupported size: " + item.size));
+      throw(new Error("Unsupported size: " + item.size));
     }
     shipping;
   },
 
   subtotal: function(){
+    var cost;
     this.items.forEach(function(item){
       cost = cost + item.cost;
     })
@@ -46,14 +48,14 @@ app.shoppingCart = {
   totalShipping: function() {
     var shipping = 100.00;
     var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
+    this.items.forEach(function(item){
       shipping = shipping + self.calculateShipping();
     })
     return shipping;
   },
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-// You do not need to change any code in the render() function.
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // You do not need to change any code in the render() function.
   render: function(){
     // display the items on the page
     // by appending all items to the ul element (whose "id" is "items")

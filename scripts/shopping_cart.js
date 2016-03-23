@@ -3,20 +3,21 @@ app.shoppingCart = {
   initialize: function(){
     console.log("Initializing shoppingCart ");
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
   add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+    this.items.push([ "name", "cost", "weight", "size" ]);
   },
 
   calculateShipping: function(item){
     var shipping = 0;
     var weight = item.weight || 5;
-    if(weight < 50){
+    if (weight < 50){
       shipping += 5;
-    } else {
-      shipping += 10
+    }
+    else {(weight > 50)
+      shipping += 10;
     }
 
     switch(item.size){
@@ -34,9 +35,9 @@ app.shoppingCart = {
 
   subtotal: function(){
     this.items.forEach(function(item){
-      cost = cost + item.cost;
+      subtotal = cost + item.cost;
     })
-    return cost;
+    return subtotal;
   },
 
   totalCost: function() {
@@ -46,10 +47,10 @@ app.shoppingCart = {
   totalShipping: function() {
     var shipping = 100.00;
     var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
-      shipping = shipping + self.calculateShipping();
+    this.items.forEach(function(item){
+      totalShipping = shipping + self.calculateShipping();
     })
-    return shipping;
+    return totalShipping;
   },
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

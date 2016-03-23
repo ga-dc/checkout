@@ -4,8 +4,8 @@ app.shoppingCart = {
      this.items = [];
    },
 
-      addItem: function(name, price, weight, size){
-        this.items.push({ name: name, price: price, weight: weight, size: size });
+      addItem: function(name, cost, weight, size){
+        this.items.push({ name: name, cost: cost, weight: weight, size: size });
       },
 
       calculateShipping: function(item){
@@ -37,7 +37,7 @@ app.shoppingCart = {
       subtotal: function(){
         var cost = 0.00;
         this.items.forEach(function(item){
-          cost = cost + item.price;
+          cost = cost + item.cost;
         })
         return cost;
       },
@@ -46,17 +46,17 @@ app.shoppingCart = {
         var shipping = 0.00;
         var self = this; // do not change. This line is needed for call to calculateShipping below
         this.items.forEach(function(item){
-          debugger;
           shipping = shipping + self.calculateShipping(item);
         })
         return shipping;
       },
 
       totalCost: function() {
-        return this.subtotal + this.totalShipping();
+          debugger;
+        return this.subtotal + this.totalShipping;
+
+        return totalCost;
       },
-
-
 
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // You do not need to change any code in the render() function.

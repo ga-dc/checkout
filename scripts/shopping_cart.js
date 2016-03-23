@@ -3,23 +3,25 @@ app.shoppingCart = {
   initialize: function(){
     console.log("Initializing shoppingCart ");
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
-  add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+  addItem: function(name, cost, weight, size, category){
+    this.items.push({ "name": name, "cost": cost, "weight": weight, "size": size, "category": category });
   },
 
-  calculateShipping: function(item){
+  calculateShipping: function(items){
     var shipping = 0;
-    var weight = item.weight || 5;
+    var weight = 5;
     if(weight < 50){
       shipping += 5;
     } else {
-      shipping += 10
+      shipping += 10;
     }
 
-    switch(item.size){
+//I'm running into an error with line 24 that I can't solve!!
+//TypeError: cannot read proptery 'size' of undefined
+    switch(items.size){
       case "large":
         shipping += 50;
         break;
@@ -27,28 +29,29 @@ app.shoppingCart = {
         shipping += 2550;
         break;
       default:
-        throw(new Error("Unsupported size: " + item.size));
+        throw new Error("Unsupported size " + items.size );
     }
-    shipping;
+    return shipping;
   },
 
   subtotal: function(){
-    this.items.forEach(function(item){
-      cost = cost + item.cost;
-    })
+    var cost = 0;
+    this.items.forEach(function(items, index){
+      cost = cost + items.cost;
+    });
     return cost;
   },
 
   totalCost: function() {
-    return subtotal + total_shipping();
+    return subtotal + totalShipping();
   },
 
   totalShipping: function() {
     var shipping = 100.00;
     var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
+    this.items.forEach(function(item){
       shipping = shipping + self.calculateShipping();
-    })
+    });
     return shipping;
   },
 

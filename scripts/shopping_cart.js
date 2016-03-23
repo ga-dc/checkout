@@ -27,18 +27,21 @@ app.shoppingCart = {
 
       case "large":
       shipping += 50;
-      console.log("large item detected")
       break;
 
       case "ludicrous":
       shipping += 2550;
-      console.log("luda item detected")
       break;
 
       default:
       throw(new Error("Unsupported size: " + item.size));
     }
-    return shipping;
+
+    if (item.itemType==="book"){
+      return 0;
+    } else {
+      return shipping;
+    }
   },
 
   subtotal: function(){

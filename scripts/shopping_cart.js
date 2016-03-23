@@ -1,80 +1,86 @@
-// add shopping cart to app, then add methods to shopping cart
 app.shoppingCart = {
-  initialize: function(){
-    console.log("Initializing shoppingCart ");
-    // start with an empty Array of items
-    this.items = {};
-  },
+   initialize: function(){
+     console.log("Initializing shoppingCart ");
+     this.items = [];
+   },
 
-  add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
-  },
+      addItem: function(name, cost, weight, size){
+        this.items.push({ name: name, cost: cost, weight: weight, size: size });
+      },
 
-  calculateShipping: function(item){
-    var shipping = 0;
-    var weight = item.weight || 5;
-    if(weight < 50){
-      shipping += 5;
-    } else {
-      shipping += 10
-    }
+      calculateShipping: function(item){
+        var shipping = 0;
+        var weight = item.weight || 5;
+        if (weight < 5) {
+          shipping += 0;
+        } else if (weight < 50){
+          shipping += 5;
+        } else {
+          shipping += 10
+        }
 
-    switch(item.size){
-      case "large":
-        shipping += 50;
-        break;
-      case "ludicrous":
-        shipping += 2550;
-        break;
-      default:
-        throw(new Error("Unsupported size: " + item.size));
-    }
-    shipping;
-  },
+        switch(item.size){
+          case "small":
+            shipping += 0;
+          case "large":
+            shipping += 50;
+            break;
+          case "ludicrous":
+            shipping += 2550;
+            break;
+          default:
+            throw(new Error("Unsupported size: " + item.size));
+        }
+        return shipping;
+      },
 
-  subtotal: function(){
-    this.items.forEach(function(item){
-      cost = cost + item.cost;
-    })
-    return cost;
-  },
+      subtotal: function(){
+        var cost = 0.00;
+        this.items.forEach(function(item){
+          cost = cost + item.cost;
+        })
+        return cost;
+      },
 
-  totalCost: function() {
-    return subtotal + total_shipping();
-  },
+      totalShipping: function() {
+        var shipping = 0.00;
+        var self = this; // do not change. This line is needed for call to calculateShipping below
+        this.items.forEach(function(item){
+          shipping = shipping + self.calculateShipping(item);
+        })
+        return shipping;
+      },
 
-  totalShipping: function() {
-    var shipping = 100.00;
-    var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
-      shipping = shipping + self.calculateShipping();
-    })
-    return shipping;
-  },
+      totalCost: function() {
+          debugger;
+        return this.subtotal + this.totalShipping;
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-// You do not need to change any code in the render() function.
-  render: function(){
-    // display the items on the page
-    // by appending all items to the ul element (whose "id" is "items")
-    var itemsContainer = document.getElementById('items');
+        return totalCost;
+      },
 
-    this.items.forEach(function(item){
-      var itemLi = document.createElement('li');
-      var itemText = document.createTextNode("Name: " + item.name + " | Price: " + accounting.formatMoney(item.cost));
-      itemLi.appendChild(itemText); // e.g. <li>Name: Book | Price: 5.34</li>
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // You do not need to change any code in the render() function.
+      render: function(){
+        // display the items on the page
+        // by appending all items to the ul element (whose "id" is "items")
+        var itemsContainer = document.getElementById('items');
 
-      itemsContainer.appendChild(itemLi);
-    });
+        this.items.forEach(function(item){
+          var itemLi = document.createElement('li');
+          var itemText = document.createTextNode("Name: " + item.name + " | Price: " + accounting.formatMoney(item.cost));
+          itemLi.appendChild(itemText); // e.g. <li>Name: Book | Price: 5.34</li>
 
-    var subtotalElement = document.getElementById('subtotal');
-    subtotalElement.textContent = accounting.formatMoney(app.shoppingCart.subtotal());
+          itemsContainer.appendChild(itemLi);
+        });
 
-    var totalShippingElement = document.getElementById('total_shipping');
-    totalShippingElement.textContent = accounting.formatMoney(app.shoppingCart.totalShipping());
+        var subtotalElement = document.getElementById('subtotal');
+        subtotalElement.textContent = accounting.formatMoney(app.shoppingCart.subtotal());
 
-    var totalCostElement = document.getElementById('total_cost');
-    totalCostElement.textContent = accounting.formatMoney(app.shoppingCart.totalCost());
+        var totalShippingElement = document.getElementById('total_shipping');
+        totalShippingElement.textContent = accounting.formatMoney(app.shoppingCart.totalShipping());
 
-  }
-};
+        var totalCostElement = document.getElementById('total_cost');
+        totalCostElement.textContent = accounting.formatMoney(app.shoppingCart.totalCost());
+
+      }
+  };

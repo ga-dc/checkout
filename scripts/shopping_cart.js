@@ -35,25 +35,29 @@ app.shoppingCart = {
       },
 
       subtotal: function(){
+        var cost = 0.00;
         this.items.forEach(function(item){
-          cost = cost + item.cost;
+          cost = cost + item.price;
         })
         return cost;
       },
 
-      totalCost: function() {
-        return subtotal + total_shipping();
-      },
-
       totalShipping: function() {
-        var shipping = 0;
+        var shipping = 0.00;
         var self = this; // do not change. This line is needed for call to calculateShipping below
-        this.items.for_each(function(item){
-          shipping = shipping + self.calculateShipping();
+        this.items.forEach(function(item){
+          debugger;
+          shipping = shipping + self.calculateShipping(item);
         })
         return shipping;
       },
-    }
+
+      totalCost: function() {
+        return this.subtotal + this.totalShipping();
+      },
+
+
+
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // You do not need to change any code in the render() function.
       render: function(){
@@ -79,3 +83,4 @@ app.shoppingCart = {
         totalCostElement.textContent = accounting.formatMoney(app.shoppingCart.totalCost());
 
       }
+  };

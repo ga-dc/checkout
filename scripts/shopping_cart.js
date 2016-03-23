@@ -1,38 +1,44 @@
 // add shopping cart to app, then add methods to shopping cart
 app.shoppingCart = {
   initialize: function(){
-    console.log("Initializing shoppingCart ");
+    console.log("Initializing shoppingCart");
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
   add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+    this.items.push({ name: name, cost: cost, weight: weight, size: size });
   },
 
   calculateShipping: function(item){
     var shipping = 0;
     var weight = item.weight || 5;
-    if(weight < 50){
+    if(weight < 5){
+      shipping +=0;
+    } else if (weight < 50) {
       shipping += 5;
     } else {
-      shipping += 10
+      shipping += 10;
     }
 
     switch(item.size){
+      case "small":
+        shipping += 0;
+        break;
       case "large":
         shipping += 50;
         break;
       case "ludicrous":
-        shipping += 2550;
-        break;
+      shipping += 2550;
+      break;
       default:
         throw(new Error("Unsupported size: " + item.size));
     }
-    shipping;
+  return  shipping += 2550;
   },
 
   subtotal: function(){
+    var cost = 0.00;
     this.items.forEach(function(item){
       cost = cost + item.cost;
     })

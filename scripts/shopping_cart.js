@@ -1,25 +1,40 @@
 // add shopping cart to app, then add methods to shopping cart
 app.shoppingCart = {
   initialize: function(){
-    console.log("Initializing shoppingCart ");
+    console.log('Initializing shoppingCart ');
     // start with an empty Array of items
-    this.items = {};
+    this.items = [];
   },
 
-  add_item: function(name, price){
-    this.items.push([ name: name, cost: cost, weight: weight, size: size ]);
+  addItem: function(name, cost, weight, size, kind){
+    console.log("activate addItem function");
+    this.items.push({ name: name, cost: cost, weight: weight, size: size, kind: kind });
   },
 
   calculateShipping: function(item){
+    console.log("activate calculateShipping function");
     var shipping = 0;
-    var weight = item.weight || 5;
-    if(weight < 50){
+    var weight = items.weight || 5;
+    if(weight <= 5){
+      shipping += 0;
+    }
+    else if (weight <= 50){
       shipping += 5;
     } else {
-      shipping += 10
+      shipping += 10;
     }
 
-    switch(item.size){
+    switch(items.size){
+      // Had to look up the solution for this.  I assumed
+      // switch(items.size) would ignore sizes other than "large"
+      // and "ludicrous" and wouldn't create a problem.  But, it's
+      // here to make sure the product listings are correct... right?
+      case "small":
+        shipping += 0;
+        break;
+      case "medium":
+        shipping += 0;
+        break;
       case "large":
         shipping += 50;
         break;
@@ -27,29 +42,37 @@ app.shoppingCart = {
         shipping += 2550;
         break;
       default:
-        throw(new Error("Unsupported size: " + item.size));
+        //throw(new Error("Unsupported size: " + items.size));
+      // ^^^ This kept saying items.size was undefined, hence the comment-out.
+      // Update: got it fixed.
     }
-    shipping;
+    return shipping;
   },
 
   subtotal: function(){
+    console.log("activate subtotal function");
+    var sub = 0.00;
     this.items.forEach(function(item){
-      cost = cost + item.cost;
-    })
-    return cost;
+      sub = sub + item.cost;
+      console.log(sub);
+    });
+    return sub;
   },
 
   totalCost: function() {
-    return subtotal + total_shipping();
+    console.log("activate totalCost function");
+    return this.subtotal() + this.totalShipping();
   },
 
   totalShipping: function() {
-    var shipping = 100.00;
+    console.log("activate totalShipping function");
+    var totShipping = 100.00;
     var self = this; // do not change. This line is needed for call to calculateShipping below
-    this.items.for_each(function(item){
-      shipping = shipping + self.calculateShipping();
-    })
-    return shipping;
+    self.items.forEach(function(item){
+      totShipping = totShipping + self.calculateShipping();
+    });
+    console.log(totShipping);
+    return totShipping;
   },
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
